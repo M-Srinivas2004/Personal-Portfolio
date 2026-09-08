@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malladi Srinivas | Full-Stack Web Developer</title>
+  <meta name="description" content="Personal Portfolio of Malladi Srinivas - Full-Stack Web Developer based in Andhra Pradesh, India. Specializing in modern web applications, scalable backends, and rapid modern vibe coding workflows." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- FontAwesome Icons for clean icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar container">
+      <a href="#hero" class="brand-logo">
+        <span class="logo-accent">&lt;</span>MS<span class="logo-accent">/&gt;</span>
+        <span class="logo-name">Srinivas</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Action Buttons (Theme Toggle & CTA) -->
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Switch Theme">
+          <i class="fa-solid fa-moon theme-icon-dark"></i>
+          <i class="fa-solid fa-sun theme-icon-light"></i>
+        </button>
+
+        <a href="#contact" class="btn btn-primary nav-cta">Let's Talk</a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Section 1: Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-grid">
+        <!-- Hero Text Content -->
+        <div class="hero-content">
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for Remote & Full-Time Roles</span>
+          </div>
+
+          <h1 class="hero-title">
+            Hi, I'm <span class="highlight-name">Malladi Srinivas</span>
+          </h1>
+
+          <div class="hero-role-wrapper">
+            <span class="role-prefix">I am a </span>
+            <span class="role-text highlight-role">Full-Stack Web Developer</span>
+          </div>
+
+          <p class="hero-tagline">
+            Architecting responsive, high-performance web applications from intuitive frontends to scalable backends. Blending solid engineering standards with modern, AI-accelerated vibe coding workflows to build fast, reliable, and user-centric digital experiences.
+          </p>
+
+          <div class="hero-meta">
+            <div class="meta-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Andhra Pradesh, India</span>
+            </div>
+            <div class="meta-item">
+              <i class="fa-solid fa-globe"></i>
+              <span>Worldwide Remote Friendly</span>
+            </div>
+          </div>
+
+          <!-- Hero CTAs -->
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span>View Projects</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <span>Contact Me</span>
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+            <a href="#about" class="btn btn-outline">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </a>
+          </div>
+
+          <!-- Social Links -->
+          <div class="hero-socials">
+            <span class="socials-label">Connect with me:</span>
+            <div class="social-links-list">
+              <a href="https://github.com/M-Srinivas2004?tab=overview&from=2026-09-01&to=2026-09-03" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub Profile">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/malladi-srinivas-3b554736a" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a href="#contact" class="social-link" aria-label="Contact">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual / Code Card -->
+        <div class="hero-visual">
+          <div class="code-card">
+            <div class="card-header">
+              <div class="window-controls">
+                <span class="control-dot close"></span>
+                <span class="control-dot minimize"></span>
+                <span class="control-dot maximize"></span>
+              </div>
+              <span class="card-filename">developer.ts</span>
+              <span class="card-badge">TypeScript</span>
+            </div>
+            <div class="card-body">
+              <pre><code><span class="code-keyword">const</span> <span class="code-variable">developer</span>: <span class="code-type">DeveloperProfile</span> = {
+  <span class="code-property">name</span>: <span class="code-string">"Malladi Srinivas"</span>,
+  <span class="code-property">title</span>: <span class="code-string">"Full-Stack Web Developer"</span>,
+  <span class="code-property">methodology</span>: <span class="code-string">"Modern Web + Vibe Coding"</span>,
+  <span class="code-property">location</span>: <span class="code-string">"Andhra Pradesh, India"</span>,
+  <span class="code-property">workPreference</span>: <span class="code-string">"Remote / Hybrid"</span>,
+  <span class="code-property">coreFocus</span>: [
+    <span class="code-string">"Responsive Frontend UI"</span>,
+    <span class="code-string">"API & Scalable Backends"</span>,
+    <span class="code-string">"Rapid Prototyping"</span>
+  ],
+  <span class="code-property">readyToCollaborate</span>: <span class="code-boolean">true</span>
+};
+
+<span class="code-comment">// Let's build something exceptional together</span>
+<span class="code-variable">developer</span>.<span class="code-function">sayHello</span>();</code></pre>
+            </div>
+            <div class="card-footer">
+              <div class="card-stat">
+                <i class="fa-solid fa-bolt"></i>
+                <span>High Performance</span>
+              </div>
+              <div class="card-stat">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Clean Code</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: About Me -->
+    <section id="about" class="section-container container">
+      <div class="section-header">
+        <span class="section-subtitle">Get To Know Me</span>
+        <h2 class="section-title">About Me</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="about-grid">
+        <!-- Bio & Story -->
+        <div class="about-text-column">
+          <h3 class="about-lead">
+            Final-Year B.Tech Student & <span class="highlight-text">Modern Full-Stack Developer</span>
+          </h3>
+
+          <p class="about-paragraph">
+            I am currently in my final year of <strong>B.Tech</strong> in Andhra Pradesh, India. Rather than confining my education to theory, I have dedicated myself to hands-on software creation—crafting real-world web applications from the ground up.
+          </p>
+
+          <p class="about-paragraph">
+            My development philosophy combines traditional software engineering principles with modern <strong>"vibe coding"</strong>—an agile, AI-accelerated workflow that enables me to conceptualize, iterate, and ship responsive, high-performance web products with remarkable speed and precision.
+          </p>
+
+          <p class="about-paragraph">
+            I specialize in designing <strong>sleek, intuitive frontend interfaces</strong> and integrating <strong>cutting-edge AI technologies</strong> directly into web experiences. While at the start of my formal career journey, my relentless curiosity and steady pipeline of project development prove my dedication to building scalable, user-centric software.
+          </p>
+
+          <!-- Core Pillars / Key Strengths -->
+          <div class="about-pillars">
+            <div class="pillar-item">
+              <div class="pillar-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+              <div class="pillar-info">
+                <h4>AI-Integrated Web Apps</h4>
+                <p>Bridging generative AI and modern UI to build intelligent, interactive web apps.</p>
+              </div>
+            </div>
+
+            <div class="pillar-item">
+              <div class="pillar-icon"><i class="fa-solid fa-laptop-code"></i></div>
+              <div class="pillar-info">
+                <h4>Sleek Responsive UI</h4>
+                <p>Obsessed with clean aesthetics, micro-interactions, and mobile-first responsiveness.</p>
+              </div>
+            </div>
+
+            <div class="pillar-item">
+              <div class="pillar-icon"><i class="fa-solid fa-rocket"></i></div>
+              <div class="pillar-info">
+                <h4>Rapid Vibe Coding</h4>
+                <p>Leveraging next-generation developer tooling to prototype and deploy with high velocity.</p>
+              </div>
+            </div>
+
+            <div class="pillar-item">
+              <div class="pillar-icon"><i class="fa-solid fa-cubes"></i></div>
+              <div class="pillar-info">
+                <h4>Full-Stack Foundations</h4>
+                <p>Connecting clean frontend components with dependable backend APIs and databases.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlight Stat Cards & Action Box -->
+        <div class="about-stats-column">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div class="stat-number">4th Year</div>
+              <div class="stat-label">B.Tech Engineering</div>
+              <p class="stat-subtext">Active student graduating with strong technical fundamentals.</p>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-code-commit"></i></div>
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Projects & Prototypes</div>
+              <p class="stat-subtext">Hands-on applications built spanning frontend, backend, & AI tools.</p>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-microchip"></i></div>
+              <div class="stat-number">AI-Native</div>
+              <div class="stat-label">Modern Vibe Coding</div>
+              <p class="stat-subtext">Accelerating full-stack engineering with modern AI workflows.</p>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-bullseye"></i></div>
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Drive & Dedication</div>
+              <p class="stat-subtext">Always eager to tackle challenging web problems and learn.</p>
+            </div>
+          </div>
+
+          <!-- Quick Action Callout -->
+          <div class="about-cta-box">
+            <div class="cta-box-content">
+              <h4>Interested in collaborating or hiring?</h4>
+              <p>I am actively seeking remote internships, entry-level developer roles, and freelance opportunities.</p>
+            </div>
+            <a href="#contact" class="btn btn-primary">Let's Connect <i class="fa-solid fa-paper-plane"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Skills & Technologies -->
+    <section id="skills" class="section-container container">
+      <div class="section-header">
+        <span class="section-subtitle">My Technical Arsenal</span>
+        <h2 class="section-title">Skills & Technologies</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Featured AI Badges Banner -->
+      <div class="ai-badges-banner">
+        <div class="badges-header">
+          <div class="badge-tag"><i class="fa-solid fa-certificate"></i> Verified Badges & Specializations</div>
+          <h3 class="badges-title">AI & Modern Vibe Coding Credentials</h3>
+          <p class="badges-desc">Combining modern engineering frameworks with advanced AI agentic systems and prompt engineering to build faster, smarter web applications.</p>
+        </div>
+
+        <div class="badges-grid">
+          <div class="ai-badge-card">
+            <div class="badge-icon-wrap antigravity"><i class="fa-solid fa-atom"></i></div>
+            <div class="badge-info">
+              <span class="badge-tier">Verified Power User</span>
+              <h4>Google Antigravity</h4>
+              <p>Agentic AI workflows, pair programming & code synthesis.</p>
+            </div>
+            <span class="badge-star"><i class="fa-solid fa-award"></i></span>
+          </div>
+
+          <div class="ai-badge-card">
+            <div class="badge-icon-wrap gemini"><i class="fa-solid fa-brain"></i></div>
+            <div class="badge-info">
+              <span class="badge-tier">Specialist</span>
+              <h4>Google Gemini</h4>
+              <p>Multimodal intelligence, API integration & web assistants.</p>
+            </div>
+            <span class="badge-star"><i class="fa-solid fa-award"></i></span>
+          </div>
+
+          <div class="ai-badge-card">
+            <div class="badge-icon-wrap chatgpt"><i class="fa-solid fa-robot"></i></div>
+            <div class="badge-info">
+              <span class="badge-tier">Advanced</span>
+              <h4>ChatGPT & OpenAI</h4>
+              <p>Architecture planning, logic optimization & refactoring.</p>
+            </div>
+            <span class="badge-star"><i class="fa-solid fa-award"></i></span>
+          </div>
+
+          <div class="ai-badge-card">
+            <div class="badge-icon-wrap prompt"><i class="fa-solid fa-terminal"></i></div>
+            <div class="badge-info">
+              <span class="badge-tier">Practitioner</span>
+              <h4>Prompt Engineering</h4>
+              <p>Structured context injection, few-shot prompting & system design.</p>
+            </div>
+            <span class="badge-star"><i class="fa-solid fa-award"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorized Skills Grid -->
+      <div class="skills-categories-grid">
+        <!-- Frontend -->
+        <div class="skill-category-card">
+          <div class="cat-header">
+            <div class="cat-icon"><i class="fa-solid fa-display"></i></div>
+            <div>
+              <h3>Frontend Development</h3>
+              <p class="cat-subtitle">User Interface & Experience</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <div class="skill-chip">
+              <i class="fa-brands fa-html5 skill-icon html"></i>
+              <div class="skill-meta">
+                <span class="skill-name">HTML5</span>
+                <span class="skill-tag">Semantic Web</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-brands fa-css3-alt skill-icon css"></i>
+              <div class="skill-meta">
+                <span class="skill-name">CSS3</span>
+                <span class="skill-tag">Flexbox & Grid</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-brands fa-js skill-icon js"></i>
+              <div class="skill-meta">
+                <span class="skill-name">JavaScript</span>
+                <span class="skill-tag">ES6+ Modern</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-brands fa-react skill-icon react"></i>
+              <div class="skill-meta">
+                <span class="skill-name">React.js</span>
+                <span class="skill-tag">Components & Hooks</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-mobile-screen-button skill-icon responsive"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Responsive Design</span>
+                <span class="skill-tag">Mobile-First</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend & Databases -->
+        <div class="skill-category-card">
+          <div class="cat-header">
+            <div class="cat-icon"><i class="fa-solid fa-server"></i></div>
+            <div>
+              <h3>Backend & Databases</h3>
+              <p class="cat-subtitle">Server Architecture & Data</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <div class="skill-chip">
+              <i class="fa-brands fa-python skill-icon python"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Python</span>
+                <span class="skill-tag">Core & Scripting</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-brands fa-node-js skill-icon node"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Node.js</span>
+                <span class="skill-tag">Runtime & APIs</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-network-wired skill-icon api"></i>
+              <div class="skill-meta">
+                <span class="skill-name">RESTful APIs</span>
+                <span class="skill-tag">CRUD & Endpoints</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-database skill-icon postgres"></i>
+              <div class="skill-meta">
+                <span class="skill-name">PostgreSQL</span>
+                <span class="skill-tag">Relational DB</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-table skill-icon mysql"></i>
+              <div class="skill-meta">
+                <span class="skill-name">MySQL</span>
+                <span class="skill-tag">Queries & Schemas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools & Workflow -->
+        <div class="skill-category-card">
+          <div class="cat-header">
+            <div class="cat-icon"><i class="fa-solid fa-toolbox"></i></div>
+            <div>
+              <h3>Workflow & Tooling</h3>
+              <p class="cat-subtitle">Version Control & Environment</p>
+            </div>
+          </div>
+          <div class="skills-list">
+            <div class="skill-chip">
+              <i class="fa-brands fa-git-alt skill-icon git"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Git</span>
+                <span class="skill-tag">Branching & VC</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-brands fa-github skill-icon github"></i>
+              <div class="skill-meta">
+                <span class="skill-name">GitHub</span>
+                <span class="skill-tag">Repos & Collaboration</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-code skill-icon vscode"></i>
+              <div class="skill-meta">
+                <span class="skill-name">VS Code</span>
+                <span class="skill-tag">Primary IDE</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-bolt-lightning skill-icon vibe"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Vibe Coding</span>
+                <span class="skill-tag">Rapid Delivery</span>
+              </div>
+            </div>
+            <div class="skill-chip">
+              <i class="fa-solid fa-sliders skill-icon clean"></i>
+              <div class="skill-meta">
+                <span class="skill-name">Clean Code</span>
+                <span class="skill-tag">Maintainable Style</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Featured Projects -->
+    <section id="projects" class="section-container container">
+      <div class="section-header">
+        <span class="section-subtitle">Real-World Applications</span>
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1: NexaAI -->
+        <article class="project-card featured">
+          <div class="project-banner project-banner-1">
+            <div class="project-badge">Featured • AI Web App</div>
+            <div class="project-icon-preview"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          </div>
+          <div class="project-body">
+            <div class="project-category">Full-Stack & Generative AI</div>
+            <h3 class="project-title">NexaAI — Intelligent Web Workspace & AI Assistant</h3>
+            <p class="project-description">
+              A modern web platform integrating Gemini and OpenAI APIs to provide real-time AI assistance, dynamic code synthesis, and intelligent workflow automation within a responsive glassmorphic UI.
+            </p>
+
+            <ul class="project-highlights">
+              <li><i class="fa-solid fa-check"></i> Real-time streaming API responses with syntax-highlighted code generation</li>
+              <li><i class="fa-solid fa-check"></i> Custom prompt engineering templates for web developers</li>
+              <li><i class="fa-solid fa-check"></i> Client-side conversation persistence and responsive dark/light UI</li>
+            </ul>
+
+            <div class="project-tags">
+              <span class="tech-tag">React.js</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Gemini API</span>
+              <span class="tech-tag">REST API</span>
+              <span class="tech-tag">CSS3</span>
+            </div>
+
+            <div class="project-links">
+              <a href="https://github.com/M-Srinivas2004" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                <span>View Code</span>
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="projects/nexa-ai/index.html" target="_blank" class="btn btn-secondary btn-sm" title="Launch NexaAI Live Workspace">
+                <span>Live Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: DevPulse -->
+        <article class="project-card">
+          <div class="project-banner project-banner-2">
+            <div class="project-badge">Full-Stack SaaS</div>
+            <div class="project-icon-preview"><i class="fa-solid fa-chart-line"></i></div>
+          </div>
+          <div class="project-body">
+            <div class="project-category">Productivity & Database Architecture</div>
+            <h3 class="project-title">DevPulse — Developer Sprint & Task Hub</h3>
+            <p class="project-description">
+              A high-efficiency project and task tracking web application engineered for agile development teams, featuring relational data management, drag-and-drop workflows, and analytics.
+            </p>
+
+            <ul class="project-highlights">
+              <li><i class="fa-solid fa-check"></i> Relational PostgreSQL schema with optimized SQL queries and indexing</li>
+              <li><i class="fa-solid fa-check"></i> Python & Node.js backend services providing secure RESTful API endpoints</li>
+              <li><i class="fa-solid fa-check"></i> Interactive sprint board with real-time status updates</li>
+            </ul>
+
+            <div class="project-tags">
+              <span class="tech-tag">React.js</span>
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">JavaScript</span>
+            </div>
+
+            <div class="project-links">
+              <a href="https://github.com/M-Srinivas2004" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                <span>View Code</span>
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="#contact" class="btn btn-secondary btn-sm">
+                <span>Request Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: ShopSphere -->
+        <article class="project-card">
+          <div class="project-banner project-banner-3">
+            <div class="project-badge">E-Commerce Web</div>
+            <div class="project-icon-preview"><i class="fa-solid fa-cart-shopping"></i></div>
+          </div>
+          <div class="project-body">
+            <div class="project-category">Web Platform & MySQL</div>
+            <h3 class="project-title">ShopSphere — Responsive E-Commerce Platform</h3>
+            <p class="project-description">
+              A feature-rich e-commerce web storefront with real-time category filtering, dynamic shopping cart calculations, relational MySQL product inventory, and responsive checkout flows.
+            </p>
+
+            <ul class="project-highlights">
+              <li><i class="fa-solid fa-check"></i> MySQL database for inventory tracking, orders, and customer queries</li>
+              <li><i class="fa-solid fa-check"></i> Responsive mobile-first product showcase with search & instant filtering</li>
+              <li><i class="fa-solid fa-check"></i> REST API handling cart state and simulated checkout transaction logic</li>
+            </ul>
+
+            <div class="project-tags">
+              <span class="tech-tag">HTML5 / CSS3</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">MySQL</span>
+              <span class="tech-tag">REST API</span>
+            </div>
+
+            <div class="project-links">
+              <a href="https://github.com/M-Srinivas2004" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                <span>View Code</span>
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="#contact" class="btn btn-secondary btn-sm">
+                <span>Request Demo</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- More Projects Callout -->
+      <div class="more-projects-box">
+        <div class="more-projects-text">
+          <i class="fa-brands fa-github more-icon"></i>
+          <div>
+            <h4>Want to explore more code & repositories?</h4>
+            <p>I constantly build experiments, AI prototypes, and full-stack modules on GitHub.</p>
+          </div>
+        </div>
+        <a href="https://github.com/M-Srinivas2004?tab=repositories" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <span>Visit GitHub Profile</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 5: Experience & Education -->
+    <section id="experience" class="section-container container">
+      <div class="section-header">
+        <span class="section-subtitle">Career Roadmap & Academia</span>
+        <h2 class="section-title">Experience & Education</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="experience-education-grid">
+        <!-- Column 1: Experience & Internships -->
+        <div class="timeline-column">
+          <div class="column-heading">
+            <i class="fa-solid fa-briefcase heading-icon"></i>
+            <h3>Practical Experience</h3>
+          </div>
+
+          <div class="timeline-track">
+            <!-- Internship 1 -->
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-period">6-Week Intensive</span>
+                  <span class="timeline-type">Internship</span>
+                </div>
+                <h4 class="timeline-role">AI & Machine Learning Intern</h4>
+                <p class="timeline-org">Practical Industry & Academic Training</p>
+                <p class="timeline-desc">
+                  Completed an intensive 6-week internship focused on foundational machine learning paradigms, data preprocessing pipelines, exploratory data analysis, and predictive model training using Python.
+                </p>
+                <div class="timeline-tags">
+                  <span class="micro-tag">Machine Learning</span>
+                  <span class="micro-tag">Python</span>
+                  <span class="micro-tag">Data Preprocessing</span>
+                  <span class="micro-tag">Model Evaluation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Internship 2 -->
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-period">6-Week Intensive</span>
+                  <span class="timeline-type">Internship</span>
+                </div>
+                <h4 class="timeline-role">AI & Web Integration Intern</h4>
+                <p class="timeline-org">Applied Technology Program</p>
+                <p class="timeline-desc">
+                  Engineered and connected AI-driven logic to web-accessible endpoints. Focused on integrating algorithmic services with interactive user interfaces and optimizing response speeds.
+                </p>
+                <div class="timeline-tags">
+                  <span class="micro-tag">AI Integration</span>
+                  <span class="micro-tag">RESTful APIs</span>
+                  <span class="micro-tag">Web Interfaces</span>
+                  <span class="micro-tag">Full-Stack Prototyping</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Independent Development -->
+            <div class="timeline-item">
+              <div class="timeline-marker active-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-period">2024 — Present</span>
+                  <span class="timeline-type current">Active</span>
+                </div>
+                <h4 class="timeline-role">Independent Full-Stack & Vibe Coding Developer</h4>
+                <p class="timeline-org">Self-Directed Engineering</p>
+                <p class="timeline-desc">
+                  Building responsive web applications leveraging React, Node.js, and modern AI agentic workflows. Prototyping full-stack SaaS tools and experimenting with prompt engineering.
+                </p>
+                <div class="timeline-tags">
+                  <span class="micro-tag">React.js</span>
+                  <span class="micro-tag">Node.js</span>
+                  <span class="micro-tag">PostgreSQL / MySQL</span>
+                  <span class="micro-tag">Vibe Coding</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Education & Certifications -->
+        <div class="education-column">
+          <div class="column-heading">
+            <i class="fa-solid fa-graduation-cap heading-icon"></i>
+            <h3>Education & Credentials</h3>
+          </div>
+
+          <!-- University Card -->
+          <div class="edu-card">
+            <div class="edu-header">
+              <div class="edu-icon"><i class="fa-solid fa-university"></i></div>
+              <div>
+                <span class="edu-badge">4th Year • Final Year</span>
+                <h4 class="edu-degree">B.Tech in Artificial Intelligence & Machine Learning</h4>
+              </div>
+            </div>
+            <p class="edu-institute">Srinivasa Institute of Engineering & Technology</p>
+            <p class="edu-location"><i class="fa-solid fa-location-dot"></i> Cheyyeru, Amalapuram, Andhra Pradesh</p>
+            
+            <div class="edu-score-box">
+              <div class="score-label">Academic Performance</div>
+              <div class="score-value">80% CGPA / Percentage</div>
+              <span class="score-note"><i class="fa-solid fa-circle-check"></i> First Class with Distinction Standing</span>
+            </div>
+
+            <p class="edu-summary">
+              Specialized coursework spanning Machine Learning, Data Structures & Algorithms, Database Systems, Web Engineering, and Artificial Intelligence paradigms.
+            </p>
+          </div>
+
+          <!-- Certifications Subsection -->
+          <div class="certifications-block">
+            <h4 class="cert-title"><i class="fa-solid fa-award"></i> Verified Certifications</h4>
+            
+            <div class="cert-cards-list">
+              <!-- Cert 1 -->
+              <div class="cert-card">
+                <div class="cert-icon python-cert"><i class="fa-brands fa-python"></i></div>
+                <div class="cert-info">
+                  <h5>Certified Python Mastery</h5>
+                  <p>In-depth certification covering object-oriented programming, data processing, backend scripting, and algorithms.</p>
+                  <span class="cert-badge">Verified Credential</span>
+                </div>
+              </div>
+
+              <!-- Cert 2 -->
+              <div class="cert-card">
+                <div class="cert-icon web-cert"><i class="fa-solid fa-code"></i></div>
+                <div class="cert-info">
+                  <h5>Full-Stack Web Development Certification</h5>
+                  <p>Comprehensive credential covering frontend UI, backend API architecture, database integration, and deployment.</p>
+                  <span class="cert-badge">Verified Credential</span>
+                </div>
+              </div>
+
+              <!-- Cert 3 -->
+              <div class="cert-card">
+                <div class="cert-icon ai-cert"><i class="fa-solid fa-brain"></i></div>
+                <div class="cert-info">
+                  <h5>AI & Machine Learning Practical Training</h5>
+                  <p>Double 6-week intensive hands-on internship programs with applied project outcomes.</p>
+                  <span class="cert-badge">Internship Completion</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Contact -->
+    <section id="contact" class="section-container container">
+      <div class="section-header">
+        <span class="section-subtitle">Start A Conversation</span>
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Contact Information Column -->
+        <div class="contact-info-column">
+          <!-- Opportunity Status Card -->
+          <div class="opportunity-card">
+            <div class="opportunity-badge">
+              <span class="status-dot"></span>
+              <span>Available For Opportunities</span>
+            </div>
+            <h3 class="opportunity-title">Let's build something exceptional</h3>
+            <p class="opportunity-text">
+              I am actively seeking <strong>Entry-Level Full-Stack Developer roles</strong>, <strong>AI Developer positions</strong>, and <strong>AI Web Internships</strong>. Whether you have a project idea, an open position, or simply want to connect—I'd love to hear from you!
+            </p>
+            <div class="opportunity-roles">
+              <span class="role-pill"><i class="fa-solid fa-code"></i> Full-Stack Web Dev</span>
+              <span class="role-pill"><i class="fa-solid fa-robot"></i> AI Developer</span>
+              <span class="role-pill"><i class="fa-solid fa-graduation-cap"></i> AI/ML Internships</span>
+              <span class="role-pill"><i class="fa-solid fa-globe"></i> Remote Friendly</span>
+            </div>
+          </div>
+
+          <!-- Direct Channels Cards -->
+          <div class="contact-channels-list">
+            <!-- Email Channel -->
+            <div class="channel-card">
+              <div class="channel-icon email-icon"><i class="fa-solid fa-envelope"></i></div>
+              <div class="channel-details">
+                <span class="channel-label">Email Me Directly</span>
+                <!-- Your verified contact email -->
+                <a href="mailto:srinivasmalladi2004@gmail.com" class="channel-value" id="emailLink">
+                  srinivasmalladi2004@gmail.com
+                </a>
+              </div>
+              <button class="copy-btn" id="copyEmailBtn" title="Copy Email Address" aria-label="Copy Email Address">
+                <i class="fa-regular fa-copy"></i>
+                <span class="copy-tooltip" id="emailTooltip">Copy</span>
+              </button>
+            </div>
+
+            <!-- WhatsApp Channel -->
+            <div class="channel-card">
+              <div class="channel-icon whatsapp-icon"><i class="fa-brands fa-whatsapp"></i></div>
+              <div class="channel-details">
+                <span class="channel-label">WhatsApp Quick Chat</span>
+                <!-- REPLACE: Update your WhatsApp number in the href and span below -->
+                <span class="channel-value text-muted">+91 9XXXXXXXXX (Enter your number)</span>
+              </div>
+              <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="channel-action-btn" title="Open WhatsApp" id="whatsappLink">
+                <span>Chat</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Location & Remote -->
+            <div class="channel-card">
+              <div class="channel-icon location-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="channel-details">
+                <span class="channel-label">Location</span>
+                <span class="channel-value">Andhra Pradesh, India</span>
+              </div>
+              <span class="channel-tag">Open To Relocate / Remote</span>
+            </div>
+
+            <!-- Social Profiles -->
+            <div class="channel-card socials-channel">
+              <div class="channel-icon social-icon"><i class="fa-solid fa-share-nodes"></i></div>
+              <div class="channel-details">
+                <span class="channel-label">Professional Networks</span>
+                <div class="channels-social-links">
+                  <a href="https://www.linkedin.com/in/malladi-srinivas-3b554736a" target="_blank" rel="noopener noreferrer" class="channel-social-btn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                  </a>
+                  <a href="https://github.com/M-Srinivas2004?tab=overview&from=2026-09-01&to=2026-09-03" target="_blank" rel="noopener noreferrer" class="channel-social-btn">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form Column -->
+        <div class="contact-form-column">
+          <div class="form-wrapper">
+            <h3 class="form-heading">Send A Direct Message</h3>
+            <p class="form-subheading">Fill out the form below and I will get back to you promptly.</p>
+
+            <form id="contactForm" class="contact-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contactName" class="form-label">Your Name <span class="required">*</span></label>
+                  <div class="input-wrap">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    <input type="text" id="contactName" name="name" class="form-input" placeholder="e.g. Alex Johnson" required />
+                  </div>
+                  <span class="field-error" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="contactEmail" class="form-label">Your Email <span class="required">*</span></label>
+                  <div class="input-wrap">
+                    <i class="fa-regular fa-envelope input-icon"></i>
+                    <input type="email" id="contactEmail" name="email" class="form-input" placeholder="e.g. alex@company.com" required />
+                  </div>
+                  <span class="field-error" id="emailError"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contactSubject" class="form-label">Inquiring About <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <i class="fa-solid fa-list-check input-icon"></i>
+                  <select id="contactSubject" name="subject" class="form-select" required>
+                    <option value="" disabled selected>Select an inquiry topic</option>
+                    <option value="Entry-Level Full-Stack Role">Entry-Level Full-Stack Role</option>
+                    <option value="AI Developer Position">AI Developer Position</option>
+                    <option value="AI & ML Internship Opportunity">AI & ML Internship Opportunity</option>
+                    <option value="Freelance Web Project">Freelance Web Project</option>
+                    <option value="General Networking / Collaboration">General Networking / Collaboration</option>
+                  </select>
+                </div>
+                <span class="field-error" id="subjectError"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Your Message <span class="required">*</span></label>
+                <div class="input-wrap textarea-wrap">
+                  <i class="fa-regular fa-message input-icon textarea-icon"></i>
+                  <textarea id="contactMessage" name="message" rows="5" class="form-textarea" placeholder="Describe your project, opportunity, or say hello..." required></textarea>
+                </div>
+                <span class="field-error" id="messageError"></span>
+              </div>
+
+              <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                <span>Send Message</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+
+              <div class="form-status" id="formStatus" style="display: none;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; <span id="currentYear"></span> Malladi Srinivas. Built with clean code & modern web standards.</p>
+      <div class="footer-links">
+        <a href="https://github.com/M-Srinivas2004?tab=overview&from=2026-09-01&to=2026-09-03" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/malladi-srinivas-3b554736a" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

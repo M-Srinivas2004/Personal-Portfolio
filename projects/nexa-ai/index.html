@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaAI — Intelligent Web Workspace & AI Developer Assistant | by Malladi Srinivas</title>
+  <meta name="description" content="NexaAI is a modern AI-integrated developer workspace featuring real-time code synthesis, prompt engineering studio, and live preview sandbox. Built by Malladi Srinivas." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- NexaAI Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Collapsible Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="brand-wrap">
+          <div class="brand-icon"><i class="fa-solid fa-atom"></i></div>
+          <div class="brand-text">
+            <h1>NexaAI</h1>
+            <span class="brand-badge">Dev Workspace</span>
+          </div>
+        </div>
+        <button id="closeSidebarBtn" class="action-icon-btn" title="Close Sidebar" aria-label="Close Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <!-- Action: New Chat -->
+      <div class="sidebar-actions">
+        <button id="btnNewChat" class="btn-new-chat">
+          <i class="fa-solid fa-plus"></i>
+          <span>New Dev Session</span>
+        </button>
+      </div>
+
+      <!-- History Sessions -->
+      <div class="history-section">
+        <div class="history-title">Chat Sessions</div>
+        <div class="sessions-list" id="sessionsList">
+          <!-- Populated dynamically by script.js -->
+        </div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="engine-status-pill">
+          <div class="status-indicator">
+            <span class="dot" id="engineStatusDot"></span>
+            <span id="engineStatusText">Offline Dev Engine</span>
+          </div>
+          <span class="engine-name">v2.0</span>
+        </div>
+
+        <a href="../../index.html" class="back-to-portfolio-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Return to Portfolio</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-workspace">
+      <!-- Top Navigation Bar -->
+      <header class="top-bar">
+        <div class="top-left">
+          <button id="toggleSidebarBtn" class="toggle-sidebar-btn" title="Toggle Sidebar" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="current-mode-info">
+            <span class="mode-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> Full-Stack Assistant</span>
+          </div>
+        </div>
+
+        <div class="top-right">
+          <!-- Prompt Library Button -->
+          <button id="openPromptsBtn" class="action-icon-btn" title="Prompt Library" aria-label="Prompt Library">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </button>
+
+          <!-- Live Sandbox Toggle Button -->
+          <button id="toggleSandboxBtn" class="action-icon-btn" title="Toggle Live Code Sandbox" aria-label="Toggle Live Code Sandbox">
+            <i class="fa-solid fa-laptop-code"></i>
+          </button>
+
+          <!-- Export Session -->
+          <button id="exportChatBtn" class="action-icon-btn" title="Export Session (Markdown)" aria-label="Export Session">
+            <i class="fa-solid fa-arrow-down-to-bracket"></i>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button id="themeToggleBtn" class="action-icon-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+          </button>
+
+          <!-- Settings Button -->
+          <button id="openSettingsBtn" class="action-icon-btn" title="API & Model Settings" aria-label="Settings">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages Stream -->
+      <div class="messages-container" id="messagesContainer">
+        <!-- Rendered dynamically (Welcome Hero or Chat Messages) -->
+      </div>
+
+      <!-- Composer Input Bar -->
+      <div class="composer-wrapper">
+        <div class="composer-box">
+          <textarea id="promptInput" class="prompt-textarea" placeholder="Ask NexaAI to write code, design schemas, debug, or explain concepts..." rows="1"></textarea>
+
+          <div class="composer-footer">
+            <div class="composer-left-actions">
+              <button type="button" class="btn-composer-tool" id="quickPromptBtn" onclick="document.getElementById('openPromptsBtn').click()">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span>Prompt Templates</span>
+              </button>
+            </div>
+
+            <button id="btnSend" class="btn-send" title="Send Message" aria-label="Send Message">
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
+          </div>
+        </div>
+
+        <p class="composer-disclaimer">
+          NexaAI • Engineered by <strong>Malladi Srinivas</strong> • Dual-Engine AI Architecture (Live Gemini & Offline Dev Engine)
+        </p>
+      </div>
+    </main>
+
+    <!-- Live Code Sandbox Pane -->
+    <aside class="sandbox-pane closed" id="sandboxPane">
+      <div class="sandbox-header">
+        <div class="sandbox-title">
+          <i class="fa-solid fa-play"></i>
+          <span>Live Code Sandbox</span>
+        </div>
+        <div class="sandbox-controls">
+          <button id="refreshSandboxBtn" class="action-icon-btn" title="Rerun Code">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="closeSandboxBtn" class="action-icon-btn" title="Close Sandbox">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="sandbox-viewport">
+        <div class="sandbox-empty" id="sandboxEmpty">
+          <i class="fa-solid fa-code"></i>
+          <h4>Sandbox Idle</h4>
+          <p style="font-size: 0.8rem;">Click <strong>Run in Sandbox</strong> on any generated HTML or CSS code block in your chat to render it live here.</p>
+        </div>
+        <iframe id="sandboxIframe" class="sandbox-iframe" style="display: none;" sandbox="allow-scripts allow-modals"></iframe>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-gear"></i> AI Engine Settings</h3>
+        <button id="closeSettingsBtn" class="action-icon-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="setting-group">
+          <label class="setting-label" for="apiKeyInput">Google Gemini API Key (Optional)</label>
+          <p class="setting-desc">Enter your personal Gemini API key to activate live generative AI models. Keys are stored locally in your browser's localStorage and never transmitted to third parties.</p>
+          <input type="password" id="apiKeyInput" class="setting-input" placeholder="AIzaSy..." />
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label" for="modelSelect">AI Model Target</label>
+          <p class="setting-desc">Select which model executes your development prompts when the API key is active.</p>
+          <select id="modelSelect" class="setting-input">
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fast, Recommended)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Code Reasoning)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Offline Dev Mode</label>
+          <p class="setting-desc">Leaving the API key empty automatically engages NexaAI's built-in intelligent developer engine for zero-friction testing.</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="saveSettingsBtn" class="btn btn-primary" style="padding: 0.65rem 1.4rem; font-size: 0.9rem;">
+          <span>Save Preferences</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt Library Modal -->
+  <div class="modal-overlay" id="promptModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-book-bookmark"></i> Developer Prompt Library</h3>
+        <button id="closePromptsBtn" class="action-icon-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+          Select a battle-tested prompt template to insert directly into your workspace:
+        </p>
+        <div class="prompt-modal-grid" id="promptModalGrid">
+          <!-- Populated from prompts.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="prompts.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
