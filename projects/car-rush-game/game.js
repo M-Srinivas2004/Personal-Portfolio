@@ -288,7 +288,7 @@ class TurboRushGame {
     // Game state
     this.state = 'MENU'; // MENU, PLAYING, PAUSED, GAMEOVER
     this.mode = 'endless'; // endless, police, timeattack, demolition
-    this.environment = 'neon'; // neon, sunset, rain, desert
+    this.environment = 'morning'; // morning (Morning Rises), neon, sunset, rain, desert
 
     // Persistent player data
     this.cash = parseInt(localStorage.getItem('tr_cash')) || 500;
@@ -417,19 +417,32 @@ class TurboRushGame {
   }
 
   // --- ATMOSPHERIC LIGHTING & WEATHER ---
+  // --- ATMOSPHERIC LIGHTING & WEATHER ---
   initEnvironment() {
     // Clear existing lights/sky
     while(this.scene.children.length > 0) {
       this.scene.remove(this.scene.children[0]);
     }
 
-    let skyColor, groundColor, dirLightColor, fogDensity;
+    let skyColor, groundColor, dirLightColor, dirLightPos;
 
     switch(this.environment) {
+      case 'morning':
+        // 🌅 MORNING RISES VIBES: Golden hour dawn, sunrise sun disc, warm peach-amber haze
+        skyColor = 0xffa05b;
+        groundColor = 0x2e5339;
+        dirLightColor = 0xfffae0;
+        dirLightPos = new THREE.Vector3(25, 30, -50);
+        this.scene.background = new THREE.Color(0xffbe94);
+        this.scene.fog = new THREE.FogExp2(0xffc59e, 0.0022);
+        this.createMorningSun();
+        this.createMorningDewEffect();
+        break;
       case 'sunset':
         skyColor = 0xff6622;
         groundColor = 0x221133;
         dirLightColor = 0xffaa44;
+        dirLightPos = new THREE.Vector3(20, 35, -30);
         this.scene.background = new THREE.Color(0x3d1730);
         this.scene.fog = new THREE.FogExp2(0x3d1730, 0.003);
         break;
@@ -437,6 +450,7 @@ class TurboRushGame {
         skyColor = 0x223344;
         groundColor = 0x111122;
         dirLightColor = 0x6688aa;
+        dirLightPos = new THREE.Vector3(10, 40, -20);
         this.scene.background = new THREE.Color(0x0f1724);
         this.scene.fog = new THREE.FogExp2(0x0f1724, 0.006);
         this.createRainEffect();
@@ -445,6 +459,7 @@ class TurboRushGame {
         skyColor = 0xffe6aa;
         groundColor = 0x553311;
         dirLightColor = 0xfff0cc;
+        dirLightPos = new THREE.Vector3(20, 40, -30);
         this.scene.background = new THREE.Color(0xcc8844);
         this.scene.fog = new THREE.FogExp2(0xcc8844, 0.0025);
         break;
@@ -453,20 +468,69 @@ class TurboRushGame {
         skyColor = 0x00f0ff;
         groundColor = 0x9900ee;
         dirLightColor = 0xff00bb;
+        dirLightPos = new THREE.Vector3(20, 40, -30);
         this.scene.background = new THREE.Color(0x070913);
         this.scene.fog = new THREE.FogExp2(0x070913, 0.0035);
         break;
     }
 
-    this.hemiLight = new THREE.HemisphereLight(skyColor, groundColor, 0.7);
+    this.hemiLight = new THREE.HemisphereLight(skyColor, groundColor, 0.85);
     this.scene.add(this.hemiLight);
 
-    this.dirLight = new THREE.DirectionalLight(dirLightColor, 1.2);
-    this.dirLight.position.set(20, 40, -30);
+    this.dirLight = new THREE.DirectionalLight(dirLightColor, 1.4);
+    this.dirLight.position.copy(dirLightPos);
     this.dirLight.castShadow = true;
     this.dirLight.shadow.mapSize.width = 1024;
     this.dirLight.shadow.mapSize.height = 1024;
     this.scene.add(this.dirLight);
+  }
+
+  // --- MORNING SUNRISE DISC & SUN FLARE ---
+  createMorningSun() {
+    const sunGroup = new THREE.Group();
+
+    // Core Glowing Sun Sphere
+    const sunGeo = new THREE.SphereGeometry(26, 32, 32);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xfff4db });
+    const sunMesh = new THREE.Mesh(sunGeo, sunMat);
+    sunGroup.add(sunMesh);
+
+    // Golden Sunrise Atmospheric Glow Aura
+    const auraGeo = new THREE.RingGeometry(26, 68, 32);
+    const auraMat = new THREE.MeshBasicMaterial({
+      color: 0xffa040,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.DoubleSide
+    });
+    const auraMesh = new THREE.Mesh(auraGeo, auraMat);
+    auraMesh.rotation.y = Math.PI;
+    sunGroup.add(auraMesh);
+
+    // Position sun in the horizon ahead
+    sunGroup.position.set(15, 28, -380);
+    this.scene.add(sunGroup);
+    this.sunGroup = sunGroup;
+  }
+
+  createMorningDewEffect() {
+    const sparkleCount = 600;
+    const geo = new THREE.BufferGeometry();
+    const positions = new Float32Array(sparkleCount * 3);
+    for (let i = 0; i < sparkleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 70;
+      positions[i + 1] = 0.5 + Math.random() * 8;
+      positions[i + 2] = (Math.random() - 0.5) * 200;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const mat = new THREE.PointsMaterial({
+      color: 0xfff0aa,
+      size: 0.18,
+      transparent: true,
+      opacity: 0.7
+    });
+    this.morningSparkles = new THREE.Points(geo, mat);
+    this.scene.add(this.morningSparkles);
   }
 
   createRainEffect() {
@@ -492,70 +556,89 @@ class TurboRushGame {
   // --- PROCEDURAL 3D HIGHWAY GENERATION ---
   initRoad() {
     this.highwaySegments = [];
+
+    // Road material with morning / environment adaptation
+    const isMorning = this.environment === 'morning';
     const roadMat = new THREE.MeshStandardMaterial({
-      color: 0x181a20,
-      roughness: 0.4,
+      color: isMorning ? 0x272a33 : 0x181a20,
+      roughness: isMorning ? 0.35 : 0.4,
       metalness: 0.2
     });
 
+    const shoulderColor = isMorning ? 0x2d5a27 : (this.environment === 'desert' ? 0x9c6633 : 0x0a0c10);
     const shoulderMat = new THREE.MeshStandardMaterial({
-      color: 0x0a0c10,
-      roughness: 0.8
+      color: shoulderColor,
+      roughness: 0.9
     });
 
-    const lineMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+    const lineColor = isMorning ? 0xffffff : (this.environment === 'desert' ? 0xffea00 : 0x00f0ff);
+    const lineMat = new THREE.MeshBasicMaterial({ color: lineColor });
+    
+    const barrierColor = isMorning ? 0x8fa3b8 : 0x445566;
     const barrierMat = new THREE.MeshStandardMaterial({
-      color: 0x445566,
-      metalness: 0.8,
-      roughness: 0.3
+      color: barrierColor,
+      metalness: 0.85,
+      roughness: 0.25
     });
 
     for (let i = 0; i < this.segmentCount; i++) {
       const segGroup = new THREE.Group();
       const zPos = -i * this.segmentLength;
 
-      // Main asphalt
+      // Main asphalt highway
       const roadGeo = new THREE.PlaneGeometry(this.roadWidth, this.segmentLength);
       const roadMesh = new THREE.Mesh(roadGeo, roadMat);
       roadMesh.rotation.x = -Math.PI / 2;
       roadMesh.receiveShadow = true;
       segGroup.add(roadMesh);
 
-      // Shoulders / Sidewalks
-      const shoulderGeo = new THREE.PlaneGeometry(80, this.segmentLength);
+      // Grass / Landscape Shoulders
+      const shoulderGeo = new THREE.PlaneGeometry(120, this.segmentLength);
       const shoulderMeshLeft = new THREE.Mesh(shoulderGeo, shoulderMat);
       shoulderMeshLeft.rotation.x = -Math.PI / 2;
-      shoulderMeshLeft.position.x = - (this.roadWidth / 2 + 40);
+      shoulderMeshLeft.position.x = - (this.roadWidth / 2 + 60);
       shoulderMeshLeft.position.y = -0.05;
+      shoulderMeshLeft.receiveShadow = true;
       segGroup.add(shoulderMeshLeft);
 
       const shoulderMeshRight = shoulderMeshLeft.clone();
-      shoulderMeshRight.position.x = (this.roadWidth / 2 + 40);
+      shoulderMeshRight.position.x = (this.roadWidth / 2 + 60);
       segGroup.add(shoulderMeshRight);
 
-      // Glowing Lane Dividers
+      // Yellow Center Median Line
+      const centerLineMat = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+      const centerDashGeo = new THREE.PlaneGeometry(0.35, this.segmentLength);
+      const centerDash = new THREE.Mesh(centerDashGeo, centerLineMat);
+      centerDash.rotation.x = -Math.PI / 2;
+      centerDash.position.set(0, 0.02, 0);
+      segGroup.add(centerDash);
+
+      // Crisp Lane Dividers
       for (let l = 1; l < this.laneCount; l++) {
+        if (l === 2) continue; // Middle line already placed
         const laneX = -this.roadWidth / 2 + l * (this.roadWidth / this.laneCount);
         for (let d = 0; d < this.segmentLength; d += 10) {
-          const dashGeo = new THREE.PlaneGeometry(0.3, 4);
+          const dashGeo = new THREE.PlaneGeometry(0.28, 4.5);
           const dashMesh = new THREE.Mesh(dashGeo, lineMat);
           dashMesh.rotation.x = -Math.PI / 2;
-          dashMesh.position.set(laneX, 0.02, -this.segmentLength / 2 + d + 2);
+          dashMesh.position.set(laneX, 0.02, -this.segmentLength / 2 + d + 2.25);
           segGroup.add(dashMesh);
         }
       }
 
-      // Highway Guardrails / Barriers
+      // Highway Guardrails
       const railGeo = new THREE.BoxGeometry(0.5, 1.2, this.segmentLength);
       const railLeft = new THREE.Mesh(railGeo, barrierMat);
       railLeft.position.set(-this.roadWidth / 2 - 0.3, 0.6, 0);
+      railLeft.castShadow = true;
       segGroup.add(railLeft);
 
       const railRight = new THREE.Mesh(railGeo, barrierMat);
       railRight.position.set(this.roadWidth / 2 + 0.3, 0.6, 0);
+      railRight.castShadow = true;
       segGroup.add(railRight);
 
-      // Sci-Fi Lampposts / City Structures along segments
+      // Scenery Props: Morning Trees, Mountains, Modern Streetlights
       this.addSegmentProps(segGroup);
 
       segGroup.position.z = zPos;
@@ -565,10 +648,66 @@ class TurboRushGame {
   }
 
   addSegmentProps(segGroup) {
-    // Streetlights with neon emission
+    const isMorning = this.environment === 'morning';
+
+    // Morning Sunrise Roadside Trees & Pine Forests
+    if (isMorning) {
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x5c4033, roughness: 0.9 });
+      const foliageMat1 = new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: 0.8 });
+      const foliageMat2 = new THREE.MeshStandardMaterial({ color: 0x40916c, roughness: 0.8 });
+      const foliageMat3 = new THREE.MeshStandardMaterial({ color: 0x52b788, roughness: 0.8 });
+
+      // Add 4-6 trees on left and right sides
+      for (let side of [-1, 1]) {
+        for (let t = 0; t < 3; t++) {
+          const treeGroup = new THREE.Group();
+          const treeX = side * (this.roadWidth / 2 + 5 + Math.random() * 25);
+          const treeZ = (Math.random() - 0.5) * (this.segmentLength - 10);
+
+          // Trunk
+          const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.45, 3, 6), trunkMat);
+          trunk.position.y = 1.5;
+          trunk.castShadow = true;
+          treeGroup.add(trunk);
+
+          // Foliage Cone Layers
+          const fol1 = new THREE.Mesh(new THREE.ConeGeometry(2.2, 3.5, 6), foliageMat1);
+          fol1.position.y = 3.8;
+          fol1.castShadow = true;
+          treeGroup.add(fol1);
+
+          const fol2 = new THREE.Mesh(new THREE.ConeGeometry(1.7, 3.0, 6), foliageMat2);
+          fol2.position.y = 5.2;
+          fol2.castShadow = true;
+          treeGroup.add(fol2);
+
+          const fol3 = new THREE.Mesh(new THREE.ConeGeometry(1.2, 2.2, 6), foliageMat3);
+          fol3.position.y = 6.4;
+          fol3.castShadow = true;
+          treeGroup.add(fol3);
+
+          treeGroup.position.set(treeX, 0, treeZ);
+          const scale = 0.8 + Math.random() * 0.5;
+          treeGroup.scale.set(scale, scale, scale);
+          segGroup.add(treeGroup);
+        }
+
+        // Sunrise Mountain Silhouettes in the distance
+        const mtnGeo = new THREE.ConeGeometry(25 + Math.random() * 15, 35 + Math.random() * 25, 5);
+        const mtnMat = new THREE.MeshStandardMaterial({
+          color: 0xb58268,
+          roughness: 0.95
+        });
+        const mtn = new THREE.Mesh(mtnGeo, mtnMat);
+        mtn.position.set(side * (75 + Math.random() * 40), 15, (Math.random() - 0.5) * 50);
+        segGroup.add(mtn);
+      }
+    }
+
+    // Streetlights
     const poleGeo = new THREE.CylinderGeometry(0.15, 0.2, 8, 8);
-    const poleMat = new THREE.MeshStandardMaterial({ color: 0x334455, metalness: 0.9 });
-    const lampMat = new THREE.MeshBasicMaterial({ color: this.environment === 'neon' ? 0x00f0ff : 0xffe600 });
+    const poleMat = new THREE.MeshStandardMaterial({ color: 0x445566, metalness: 0.8 });
+    const lampMat = new THREE.MeshBasicMaterial({ color: isMorning ? 0xfff0bb : (this.environment === 'neon' ? 0x00f0ff : 0xffe600) });
 
     [-this.roadWidth / 2 - 2.5, this.roadWidth / 2 + 2.5].forEach((xPos, idx) => {
       const pole = new THREE.Mesh(poleGeo, poleMat);
@@ -586,7 +725,7 @@ class TurboRushGame {
       segGroup.add(pole);
     });
 
-    // Cyberpunk skyscrapers or desert rocks in background
+    // Cyberpunk skyscrapers for Neon/Rain environments
     if (this.environment === 'neon' || this.environment === 'rain') {
       for (let side of [-1, 1]) {
         const bldgHeight = 30 + Math.random() * 80;
@@ -1393,6 +1532,14 @@ class TurboRushGame {
       this.updateCamera(dt);
       this.updateHUD(dt);
       this.drawRadar();
+
+      // Keep morning sun disc ahead in horizon
+      if (this.sunGroup) {
+        this.sunGroup.position.z = this.player.z - 380;
+      }
+      if (this.morningSparkles) {
+        this.morningSparkles.position.z = this.player.z;
+      }
     } else if (this.state === 'MENU' || this.state === 'GAMEOVER') {
       // Rotate car slowly on showcase
       if (this.player.mesh) {
