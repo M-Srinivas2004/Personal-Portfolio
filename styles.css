@@ -1050,7 +1050,7 @@ button {
    ========================================================================== */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
 }
 
@@ -1094,6 +1094,27 @@ button {
 
 .project-banner-3 {
   background: linear-gradient(135deg, #701a75 0%, #86198f 50%, #a21caf 100%);
+}
+
+.project-banner-4 {
+  background: linear-gradient(135deg, #091a28 0%, #003366 40%, #005f73 70%, #00f0ff 100%);
+  background-size: 200% 200%;
+  animation: cyberShift 8s ease infinite alternate;
+}
+
+@keyframes cyberShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.project-card.game-card {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.1);
+}
+
+.project-card.game-card:hover {
+  border-color: #00f0ff;
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.3);
 }
 
 .project-badge {

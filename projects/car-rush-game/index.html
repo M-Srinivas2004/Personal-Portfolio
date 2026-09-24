@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TURBO RUSH: 3D Highway Crashing & Racing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/jpeg" href="assets/game-icon.jpg">
+  <link rel="apple-touch-icon" href="assets/game-icon.jpg">
+  <meta property="og:title" content="TURBO RUSH: 3D Highway Crashing & Racing">
+  <meta property="og:image" content="assets/game-icon.jpg">
+  <meta property="og:description" content="Play high-octane 3D car racing and crash demolition game in browser!">
+  <!-- Three.js from fast CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Canvas 3D Container -->
+  <div id="game-container">
+    <canvas id="webgl-canvas"></canvas>
+    <div id="speed-lines" class="speed-lines"></div>
+    <div id="vignette-damage" class="damage-vignette"></div>
+    <div id="nitro-overlay" class="nitro-overlay"></div>
+  </div>
+
+  <!-- HUD Layer -->
+  <div id="hud" class="hud hidden">
+    <!-- Top Bar: Scores, Distance, Coins, Mode Info -->
+    <div class="hud-top">
+      <div class="hud-card glass-panel">
+        <span class="label">SCORE</span>
+        <span id="hud-score" class="value glow-text">0</span>
+      </div>
+      <div class="hud-card glass-panel">
+        <span class="label">DISTANCE</span>
+        <span id="hud-distance" class="value">0.0 km</span>
+      </div>
+      <div class="hud-card glass-panel coins-card">
+        <span class="label">COINS</span>
+        <span id="hud-coins" class="value gold-glow">💰 0</span>
+      </div>
+      <div class="hud-card glass-panel mode-timer-card" id="mode-timer-card">
+        <span id="mode-timer-label" class="label">TIME LEFT</span>
+        <span id="hud-timer" class="value text-warning">01:00</span>
+      </div>
+    </div>
+
+    <!-- Notification / Combo Banner in Center -->
+    <div id="combo-container" class="combo-container">
+      <div id="combo-text" class="combo-text"></div>
+      <div id="combo-sub" class="combo-sub"></div>
+    </div>
+
+    <!-- Health / Armor Bar -->
+    <div class="hud-health-wrap">
+      <div class="bar-header">
+        <span>VEHICLE INTEGRITY</span>
+        <span id="health-percent">100%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="health-bar-fill" class="health-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Radar / Mini Map -->
+    <div class="radar-panel glass-panel">
+      <div class="radar-title">RADAR SCANNER</div>
+      <canvas id="radar-canvas" width="100" height="150"></canvas>
+    </div>
+
+    <!-- Speedometer & Controls Lower Right/Left -->
+    <div class="hud-bottom">
+      <!-- Active Powerups List -->
+      <div id="active-powerups" class="active-powerups"></div>
+
+      <!-- Speed Gauge Cluster -->
+      <div class="gauge-cluster glass-panel">
+        <div class="speed-display">
+          <span id="hud-speed" class="speed-num">0</span>
+          <span class="speed-unit">KM/H</span>
+        </div>
+        <div class="gear-display">
+          <span>GEAR</span>
+          <span id="hud-gear" class="gear-val">1</span>
+        </div>
+        <!-- Nitro Bar -->
+        <div class="nitro-gauge-wrap">
+          <div class="nitro-label">NITRO BOOST [SHIFT]</div>
+          <div class="nitro-bar-bg">
+            <div id="nitro-bar-fill" class="nitro-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action In-Game Buttons -->
+    <div class="in-game-actions">
+      <button id="btn-camera" class="hud-btn glass-btn" title="Switch Camera (C)">📷 CAM</button>
+      <button id="btn-pause" class="hud-btn glass-btn" title="Pause Game (ESC)">⏸️ PAUSE</button>
+      <button id="btn-sound" class="hud-btn glass-btn" title="Toggle Sound (M)">🔊 SFX</button>
+    </div>
+
+    <!-- Mobile Touch Controls -->
+    <div id="touch-controls" class="touch-controls">
+      <div class="touch-dpad">
+        <button id="touch-left" class="touch-btn">◀</button>
+        <button id="touch-right" class="touch-btn">▶</button>
+      </div>
+      <div class="touch-actions">
+        <button id="touch-brake" class="touch-btn brake-btn">🛑 BRAKE</button>
+        <button id="touch-nitro" class="touch-btn nitro-btn">🔥 NITRO</button>
+        <button id="touch-gas" class="touch-btn gas-btn">⚡ GAS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN MENU & MODALS OVERLAY -->
+  <div id="ui-overlay" class="ui-overlay">
+    
+    <!-- Title / Main Menu Screen -->
+    <div id="screen-menu" class="screen-box glass-panel active">
+      <div class="game-logo">
+        <h1 class="glitch-title">TURBO <span>RUSH</span></h1>
+        <p class="subtitle">HIGH-OCTANE HIGHWAY RACER & DEMOLITION CRASH</p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="player-summary-bar">
+        <div><span>TOTAL CASH:</span> <strong id="menu-total-cash" class="gold-glow">$0</strong></div>
+        <div><span>BEST SCORE:</span> <strong id="menu-high-score" class="glow-text">0</strong></div>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="mode-selection-grid">
+        <div class="mode-card active" data-mode="endless">
+          <div class="mode-icon">🛣️</div>
+          <div class="mode-info">
+            <h3>ENDLESS HIGHWAY</h3>
+            <p>Weave through heavy traffic, trigger near-miss combos, survive as long as possible!</p>
+          </div>
+        </div>
+        <div class="mode-card" data-mode="police">
+          <div class="mode-icon">🚨</div>
+          <div class="mode-info">
+            <h3>POLICE PURSUIT</h3>
+            <p>Outrun aggressive squad cop cruisers, smash roadblocks & evade arrest!</p>
+          </div>
+        </div>
+        <div class="mode-card" data-mode="timeattack">
+          <div class="mode-icon">⏱️</div>
+          <div class="mode-info">
+            <h3>TIME ATTACK</h3>
+            <p>Race against the countdown, smash checkpoint beacons to extend your time!</p>
+          </div>
+        </div>
+        <div class="mode-card" data-mode="demolition">
+          <div class="mode-icon">💥</div>
+          <div class="mode-info">
+            <h3>DEMOLITION SMASH</h3>
+            <p>Slam, ram and destroy rival cars to score massive destruction bounties!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environment Selector -->
+      <div class="env-selection">
+        <label>ENVIRONMENT / ATMOSPHERE:</label>
+        <div class="env-buttons">
+          <button class="env-btn active" data-env="neon">🌃 Cyber Neon</button>
+          <button class="env-btn" data-env="sunset">🌅 Sunset Coast</button>
+          <button class="env-btn" data-env="rain">🌧️ Rain Storm</button>
+          <button class="env-btn" data-env="desert">🏜️ Desert Oasis</button>
+        </div>
+      </div>
+
+      <!-- Main Action Buttons -->
+      <div class="menu-actions">
+        <button id="btn-start-game" class="main-cta-btn">🚀 START RACE</button>
+        <button id="btn-open-garage" class="sec-cta-btn">🚗 GARAGE & CARS</button>
+        <button id="btn-open-how-to-play" class="sec-cta-btn">📖 HOW TO PLAY</button>
+      </div>
+
+      <div class="controls-hint">
+        🎮 <strong>DESKTOP:</strong> [W / ↑] Gas | [S / ↓] Brake | [A / D / ← →] Steer | [SHIFT] Nitro | [SPACE] Drift | [C] Cam
+      </div>
+    </div>
+
+    <!-- GARAGE & VEHICLE CUSTOMIZATION SCREEN -->
+    <div id="screen-garage" class="screen-box glass-panel hidden">
+      <div class="screen-header">
+        <h2>🏎️ THE GARAGE: CAR SELECTION & TUNING</h2>
+        <div class="garage-cash">BALANCE: <span id="garage-cash-display" class="gold-glow">$0</span></div>
+      </div>
+
+      <div class="garage-layout">
+        <!-- Car Selector Carousel -->
+        <div class="car-showcase-container">
+          <div class="car-nav">
+            <button id="car-prev" class="car-nav-btn">◀ PREV</button>
+            <div id="car-current-name" class="car-name-title">PHANTOM GT</div>
+            <button id="car-next" class="car-nav-btn">NEXT ▶</button>
+          </div>
+          <div class="car-badge" id="car-type-badge">SPORTS COUPE</div>
+          <p id="car-desc" class="car-description-text">Balanced performance machine with sharp cornering agility.</p>
+
+          <!-- Car Visual Paint Picker -->
+          <div class="car-paint-picker">
+            <span>CUSTOM PAINT:</span>
+            <div class="color-palette">
+              <button class="color-swatch active" style="background:#ff0055;" data-color="0xff0055"></button>
+              <button class="color-swatch" style="background:#00f0ff;" data-color="0x00f0ff"></button>
+              <button class="color-swatch" style="background:#ffe600;" data-color="0xffe600"></button>
+              <button class="color-swatch" style="background:#00ff66;" data-color="0x00ff66"></button>
+              <button class="color-swatch" style="background:#9d00ff;" data-color="0x9d00ff"></button>
+              <button class="color-swatch" style="background:#ffffff;" data-color="0xffffff"></button>
+              <button class="color-swatch" style="background:#1a1a1a;" data-color="0x1a1a1a"></button>
+              <button class="color-swatch" style="background:#ff6a00;" data-color="0xff6a00"></button>
+            </div>
+          </div>
+
+          <!-- Neon Glow Toggle -->
+          <div class="neon-underglow-toggle">
+            <label>NEON UNDERGLOW:</label>
+            <div class="underglow-palette">
+              <button class="underglow-swatch active" data-glow="0x00f0ff" style="background:#00f0ff;"></button>
+              <button class="underglow-swatch" data-glow="0xff007f" style="background:#ff007f;"></button>
+              <button class="underglow-swatch" data-glow="0x00ff66" style="background:#00ff66;"></button>
+              <button class="underglow-swatch" data-glow="0xffaa00" style="background:#ffaa00;"></button>
+              <button class="underglow-swatch" data-glow="0" style="background:#333;">OFF</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Car Stats & Tuning Upgrades -->
+        <div class="car-tuning-panel">
+          <div class="stat-row">
+            <span>MAX SPEED</span>
+            <div class="stat-bar-bg"><div id="stat-speed-fill" class="stat-fill"></div></div>
+            <span id="stat-speed-val" class="stat-num">280 km/h</span>
+          </div>
+          <div class="stat-row">
+            <span>ACCELERATION</span>
+            <div class="stat-bar-bg"><div id="stat-accel-fill" class="stat-fill"></div></div>
+            <span id="stat-accel-val" class="stat-num">8.5/10</span>
+          </div>
+          <div class="stat-row">
+            <span>HANDLING</span>
+            <div class="stat-bar-bg"><div id="stat-handling-fill" class="stat-fill"></div></div>
+            <span id="stat-handling-val" class="stat-num">8.0/10</span>
+          </div>
+          <div class="stat-row">
+            <span>ARMOR / DURABILITY</span>
+            <div class="stat-bar-bg"><div id="stat-armor-fill" class="stat-fill"></div></div>
+            <span id="stat-armor-val" class="stat-num">100 HP</span>
+          </div>
+          <div class="stat-row">
+            <span>NITRO CAPACITY</span>
+            <div class="stat-bar-bg"><div id="stat-nitro-fill" class="stat-fill"></div></div>
+            <span id="stat-nitro-val" class="stat-num">100%</span>
+          </div>
+
+          <!-- Upgrade Buttons -->
+          <div class="tuning-shop">
+            <h4>PERFORMANCE UPGRADES</h4>
+            <div class="upgrade-grid">
+              <div class="upgrade-card" id="upg-engine">
+                <div class="upg-info">
+                  <strong>🚀 Twin-Turbo Engine</strong>
+                  <span id="upg-engine-lvl">Lvl 1/5</span>
+                </div>
+                <button class="btn-buy-upgrade" data-type="engine">UPGRADE <span id="upg-engine-cost">$500</span></button>
+              </div>
+              <div class="upgrade-card" id="upg-nitro">
+                <div class="upg-info">
+                  <strong>🔥 Hyper Nitro Tank</strong>
+                  <span id="upg-nitro-lvl">Lvl 1/5</span>
+                </div>
+                <button class="btn-buy-upgrade" data-type="nitro">UPGRADE <span id="upg-nitro-cost">$400</span></button>
+              </div>
+              <div class="upgrade-card" id="upg-armor">
+                <div class="upg-info">
+                  <strong>🛡️ Titanium Plating</strong>
+                  <span id="upg-armor-lvl">Lvl 1/5</span>
+                </div>
+                <button class="btn-buy-upgrade" data-type="armor">UPGRADE <span id="upg-armor-cost">$450</span></button>
+              </div>
+              <div class="upgrade-card" id="upg-tires">
+                <div class="upg-info">
+                  <strong>🏎️ Racing Tires</strong>
+                  <span id="upg-tires-lvl">Lvl 1/5</span>
+                </div>
+                <button class="btn-buy-upgrade" data-type="tires">UPGRADE <span id="upg-tires-cost">$350</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Garage Footer Buttons -->
+      <div class="garage-footer">
+        <button id="btn-garage-back" class="sec-cta-btn">⬅ BACK TO MENU</button>
+        <button id="btn-select-car" class="main-cta-btn">DRIVE THIS CAR 🏁</button>
+      </div>
+    </div>
+
+    <!-- HOW TO PLAY SCREEN -->
+    <div id="screen-how-to-play" class="screen-box glass-panel hidden">
+      <h2>📖 HOW TO PLAY & PRO RACING TIPS</h2>
+      <div class="how-to-content">
+        <div class="help-section">
+          <h3>🎮 CONTROLS</h3>
+          <ul>
+            <li><strong>Steer Left / Right:</strong> <code>A / D</code> or <code>Left / Right Arrow</code></li>
+            <li><strong>Accelerate:</strong> <code>W</code> or <code>Up Arrow</code></li>
+            <li><strong>Brake / Reverse:</strong> <code>S</code> or <code>Down Arrow</code></li>
+            <li><strong>Nitro Boost:</strong> <code>Left Shift</code> or <code>N</code> (Recharges over time & near-misses)</li>
+            <li><strong>Drift / Handbrake:</strong> <code>Spacebar</code></li>
+            <li><strong>Change Camera:</strong> <code>C</code> (Chase Cam, Hood Cockpit, Top-Down)</li>
+            <li><strong>Pause Game:</strong> <code>ESC</code> or <code>P</code></li>
+          </ul>
+        </div>
+        <div class="help-section">
+          <h3>⚡ SCORING & BONUSES</h3>
+          <ul>
+            <li><strong>Near Miss:</strong> Pass within inches of other cars at top speed (+250 pts + Nitro refill).</li>
+            <li><strong>High Speed Multiplier:</strong> Maintain > 200 KM/H to multiply your score by 2x-4x.</li>
+            <li><strong>Demolition Smash:</strong> Ram traffic cars from behind/sides with Nitro or Shield active to blow them up!</li>
+            <li><strong>Collectibles:</strong> Grab 💰 Gold Coins, 🔥 Nitro Tanks, 🛡️ Shield Bubbles, and 🧲 Magnets.</li>
+          </ul>
+        </div>
+        <div class="help-section">
+          <h3>🚨 POLICE PURSUIT</h3>
+          <ul>
+            <li>Police interceptors will attempt to PIT maneuver and box you in.</li>
+            <li>Use Nitro bursts or slam them into oncoming traffic to total their cruisers!</li>
+          </ul>
+        </div>
+      </div>
+      <button id="btn-how-to-back" class="main-cta-btn">GOT IT, LET'S RACE!</button>
+    </div>
+
+    <!-- GAME OVER / CRASH SUMMARY SCREEN -->
+    <div id="screen-gameover" class="screen-box glass-panel hidden">
+      <div class="gameover-header">
+        <h2 id="gameover-title" class="text-danger">💥 VEHICLE TOTALED!</h2>
+        <p id="gameover-reason">High-speed catastrophic collision on Highway 101.</p>
+      </div>
+
+      <div class="gameover-stats-grid">
+        <div class="stat-box">
+          <span class="label">FINAL SCORE</span>
+          <span id="gov-score" class="val glow-text">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">DISTANCE COVERED</span>
+          <span id="gov-distance" class="val">0.0 km</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">TOP SPEED REACHED</span>
+          <span id="gov-top-speed" class="val">0 km/h</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">NEAR MISSES</span>
+          <span id="gov-near-misses" class="val">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">CARS WRECKED</span>
+          <span id="gov-wrecks" class="val">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">CASH EARNED</span>
+          <span id="gov-cash-earned" class="val gold-glow">+$0</span>
+        </div>
+      </div>
+
+      <div class="menu-actions">
+        <button id="btn-restart-game" class="main-cta-btn">🔄 PLAY AGAIN</button>
+        <button id="btn-gameover-garage" class="sec-cta-btn">🚗 TUNE CAR</button>
+        <button id="btn-gameover-menu" class="sec-cta-btn">🏠 MAIN MENU</button>
+      </div>
+    </div>
+
+    <!-- PAUSE MODAL -->
+    <div id="screen-pause" class="screen-box glass-panel hidden">
+      <h2>⏸️ GAME PAUSED</h2>
+      <div class="pause-options">
+        <button id="btn-resume" class="main-cta-btn">▶ RESUME RACE</button>
+        <button id="btn-pause-restart" class="sec-cta-btn">🔄 RESTART</button>
+        <button id="btn-pause-menu" class="sec-cta-btn">🏠 QUIT TO MENU</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Game Engine Script -->
+  <script src="game.js"></script>
+</body>
+</html>
